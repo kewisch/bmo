@@ -37,6 +37,7 @@ use Bugzilla::Util qw(trim trick_taint is_7bit_clean);
 use Bugzilla::Error;
 use Bugzilla::Mailer;
 use Bugzilla::Extension::SecureMail::TCT;
+use Bugzilla::Extension::SecureMail::Command::securemail_remove_bad_keys;
 
 use Crypt::OpenPGP::Armour;
 use Crypt::OpenPGP::KeyRing;
@@ -243,6 +244,13 @@ sub template_before_process {
       }
     }
   }
+}
+
+sub app_startup {
+  my ($self, $args) = @_;
+  my $app = $args->{app};
+
+  push @{ $app->commands->namespaces }, 'Bugzilla::Extension::SecureMail::Command';
 }
 
 sub _send_test_email {
