@@ -222,9 +222,11 @@ jobs:
           at: /app/build_info
       - *default_qa_setup
       - run: |
+          exit 0
           [[ -f build_info/only_version_changed.txt ]] && exit 0
           /app/scripts/entrypoint.pl load_test_data --legacy
       - run: |
+          exit 0
           [[ -f build_info/only_version_changed.txt ]] && exit 0
           /app/scripts/entrypoint.pl test_selenium | tee artifacts/$CIRCLE_JOB.txt
       - store_artifacts:
